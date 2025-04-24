@@ -451,9 +451,14 @@ class DefaultApi
                     $content = json_decode($content);
                 }
             }
+           
 
+            $obj = ObjectSerializer::deserialize($content, $returnType, []);
+
+            $OffersV2 = $content->ItemsResult->Items[0]->OffersV2;
+            $obj->getItemsResult()->getItems()[0]['OffersV2']= $OffersV2;
             return [
-                ObjectSerializer::deserialize($content, $returnType, []),
+                $obj,
                 $response->getStatusCode(),
                 $response->getHeaders()
             ];
